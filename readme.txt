@@ -1,2 +1,6 @@
 add a dev branch 
-and branch
+<<<<<<< HEAD
+AND branch
+=======
+AND branch
+>>>>>>> dev2
