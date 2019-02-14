@@ -7,7 +7,8 @@ MyWidget::MyWidget(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    resize(1200,800);
+    resize(1280,800);
+    this->move(0,0);
 //    ui->pushButton->setGeometry(560,120,80,30);
     //home title
     ui->label->setStyleSheet("QLabel{color:rgb(255,255,255);"
@@ -51,6 +52,12 @@ MyWidget::MyWidget(QWidget *parent) :
     b1.move(1100,10);
     b1.setFlat(true);//扁平化
     connect(&b1,&QPushButton::clicked,this,&MyWidget::close);
+    //关闭按钮 返回主界面
+    connect(real_data,&RealData::bak_home,//链接函数，将自定义信号和漕函数结合
+            [=](){
+        real_data->close();
+        this->show();
+    });
 
 
 }
@@ -93,7 +100,7 @@ MyWidget::~MyWidget()
 
 void MyWidget::on_realDataBtn_clicked()
 {
-//    this->hide();
+    this->hide();
     real_data->show();
 }
 

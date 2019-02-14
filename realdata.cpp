@@ -6,23 +6,25 @@ RealData::RealData(QWidget *parent) :
     ui(new Ui::RealData)
 {
     ui->setupUi(this);
-    resize(1200,800);
+    resize(1280,800);
+    this->move(0,0);
     QTimer *timer = new QTimer(this);
     timer->start(1000);
     connect(timer,SIGNAL(timeout()),this,SLOT(updateTimer()));
 
-  //关闭按钮
+    //关闭按钮个性化设置
     b1.setParent(this);
     QIcon bicon(":/img/close.jpg");
     b1.setIcon(bicon);
     b1.move(1100,10);
     b1.setFlat(true);//扁平化
-    connect(&b1,&QPushButton::clicked,this,&RealData::close);
+    //关闭实时数据界面
+    connect(&b1,&QPushButton::clicked,this,&RealData::on_realdataBackHome_clicked);
     on_ButtonCurve_clicked();
+    //设置实时数据样式
     ui->dataLabel->setStyleSheet("QLabel{color:rgb(255,255,0);"
                                  "backgroung-color:rgb(255,255,0)"
                                  "}");
-
 
 }
 
@@ -35,6 +37,8 @@ void RealData::paintEvent(QPaintEvent *)
     QPainter p(this);
     p.drawPixmap(rect(),QPixmap(":/img/123.jpg"));
 }
+
+//显示系统时间
 void RealData::updateTimer()
 {
     QDateTime time = QDateTime::currentDateTime();
@@ -47,15 +51,18 @@ void RealData::updateTimer()
 
 }
 
-void RealData::on_ButtonCurve_clicked()//点击显示实时曲线
+//点击显示实时曲线
+void RealData::on_ButtonCurve_clicked()
 {
     ui->stackedWidget->setCurrentWidget(ui->pageCurve);
     Curve *cur = new Curve();
     cur->setParent(ui->pageCurve);
+//    cur->resize(600,600);
     cur->show();
 }
 
-void RealData::on_ButtonData_clicked()//点击显示实时数据
+//点击显示实时数据
+void RealData::on_ButtonData_clicked()
 {
 
 //    ui->ButtonData->setEnabled(true);
@@ -127,4 +134,10 @@ void RealData::realtimeDataSlot()
     //这时removeDataBefore(key-8)中的8也要改成60，否则曲线显示不完整。
     ui->pageData->xAxis->setRange(key+0.25, 8, Qt::AlignRight);//设定x轴的范围
     ui->pageData->replot();
+}
+
+//返回主界面漕函数
+void RealData::on_realdataBackHome_clicked()
+{
+    emit bak_home();
 }

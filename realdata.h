@@ -28,6 +28,8 @@ public:
     ~RealData();
     //设置qcustomplot画图属性，实时
     void setupRealtimeDataDemo(QCustomPlot *customPlot);
+signals:
+    void bak_home(void);
 private slots:
     void updateTimer();
     void on_ButtonCurve_clicked();//容器曲线页面切换
@@ -35,6 +37,7 @@ private slots:
     void on_ButtonData_clicked();//容器实时页面切换
     //添加实时数据槽
     void realtimeDataSlot();
+    void on_realdataBackHome_clicked();//返回主界面
 
 protected:
     void paintEvent(QPaintEvent *);
